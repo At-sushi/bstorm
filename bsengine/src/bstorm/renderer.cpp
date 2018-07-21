@@ -244,7 +244,7 @@ void Renderer::RenderPrim3D(D3DPRIMITIVETYPE primType, int vertexCount, const Ve
     d3DDevice_->SetVertexShader(prim3DVertexShader_);
     // set shader constant
     // 3Dオブジェクトは頂点数が多いので、予め行列を全て掛けておく
-    const D3DXMATRIX worldViewProjMatrix = worldMatrix * (billboardEnable_ ? billboardViewProjMatrix3D_ : viewProjMatrix3D_);
+    const D3DXMATRIXA16 worldViewProjMatrix = worldMatrix * (billboardEnable_ ? billboardViewProjMatrix3D_ : viewProjMatrix3D_);
     d3DDevice_->SetVertexShaderConstantF(0, (const float*)&worldViewProjMatrix, 4);
     d3DDevice_->SetVertexShaderConstantF(12, &fogStart_, 1);
     d3DDevice_->SetVertexShaderConstantF(13, &fogEnd_, 1);
@@ -353,8 +353,8 @@ void Renderer::SetForbidCameraViewProjMatrix2D(int screenWidth, int screenHeight
 {
     Camera2D camera2D;
     camera2D.Reset(0, 0);
-    D3DXMATRIX forbidCameraViewMatrix2D;
-    D3DXMATRIX forbidCameraProjMatrix2D;
+    D3DXMATRIXA16 forbidCameraViewMatrix2D;
+    D3DXMATRIXA16 forbidCameraProjMatrix2D;
     camera2D.GenerateViewMatrix(&forbidCameraViewMatrix2D);
     camera2D.GenerateProjMatrix(&forbidCameraProjMatrix2D, screenWidth, screenHeight, 0, 0);
     forbidCameraViewProjMatrix2D_ = forbidCameraViewMatrix2D * forbidCameraProjMatrix2D;

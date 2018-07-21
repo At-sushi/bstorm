@@ -36,7 +36,7 @@ float Camera3D::GetZ() const
 
 void Camera3D::GenerateViewMatrix(D3DXMATRIX* view, D3DXMATRIX* billboard) const
 {
-    D3DXMATRIX rotYawPitch, rotYawPitchRoll;
+    D3DXMATRIXA16 rotYawPitch, rotYawPitchRoll;
     D3DXMatrixRotationYawPitchRoll(&rotYawPitch, D3DXToRadian(yaw_), D3DXToRadian(pitch_), 0);
     D3DXMatrixRotationYawPitchRoll(&rotYawPitchRoll, D3DXToRadian(yaw_), D3DXToRadian(pitch_), D3DXToRadian(roll_));
 

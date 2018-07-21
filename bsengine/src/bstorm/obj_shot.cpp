@@ -119,7 +119,7 @@ void ObjShot::Render(const std::shared_ptr<Renderer>& renderer)
 
             /* 配置 */
             // NOTE : fixedAngleじゃないなら移動方向に向ける
-            D3DXMATRIX world = CreateScaleRotTransMatrix(GetX(), GetY(), 0.0f,
+            D3DXMATRIXA16 world = CreateScaleRotTransMatrix(GetX(), GetY(), 0.0f,
                                                          GetAngleX(), GetAngleY(), GetAngleZ() + (shotData_->fixedAngle ? 0.0f : GetAngle() + 90.0f),
                                                          IsDelay() ? delayScale : GetScaleX(), IsDelay() ? delayScale : GetScaleY(), 1.0f);
 
