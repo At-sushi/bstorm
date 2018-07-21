@@ -1,4 +1,4 @@
-﻿#include <vector>
+﻿#include <deque>
 
 #include <bstorm/obj_render.hpp>
 
@@ -223,12 +223,12 @@ void ObjectLayerList::RenderLayer(int priority, bool ignoreStgSceneObj, bool che
     auto& layer = layers_.at(priority);
 
     // バケツソートする
-    std::vector<std::shared_ptr<ObjRender>> addShots;
-    std::vector<std::shared_ptr<ObjRender>> mulShots;
-    std::vector<std::shared_ptr<ObjRender>> subShots;
-    std::vector<std::shared_ptr<ObjRender>> invShots;
-    std::vector<std::shared_ptr<ObjRender>> alphaShots;
-    std::vector<std::shared_ptr<ObjRender>> others;
+    std::deque<std::shared_ptr<ObjRender>> addShots;
+    std::deque<std::shared_ptr<ObjRender>> mulShots;
+    std::deque<std::shared_ptr<ObjRender>> subShots;
+    std::deque<std::shared_ptr<ObjRender>> invShots;
+    std::deque<std::shared_ptr<ObjRender>> alphaShots;
+    std::deque<std::shared_ptr<ObjRender>> others;
 
     auto it = layer.begin();
     while (it != layer.end())
