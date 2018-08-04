@@ -24,7 +24,7 @@ void ObjMesh::Render(const std::shared_ptr<Renderer>& renderer)
 {
     if (mesh_)
     {
-        D3DXMATRIX world = CreateScaleRotTransMatrix(GetX(), GetY(), GetZ(), GetAngleX(), GetAngleY(), GetAngleZ(), GetScaleX(), GetScaleY(), GetScaleZ());
+        D3DXMATRIXA16 world = CreateScaleRotTransMatrix(GetX(), GetY(), GetZ(), GetAngleX(), GetAngleY(), GetAngleZ(), GetScaleX(), GetScaleY(), GetScaleZ());
         const auto& rgb = GetColor();
         D3DCOLORVALUE col = D3DCOLORVALUE{ rgb.GetR() / 255.0f, rgb.GetG() / 255.0f, rgb.GetB() / 255.0f, GetAlpha() / 255.0f };
         renderer->RenderMesh(mesh_, col, GetBlendType(), world, GetAppliedShader(), IsZWriteEnabled(), IsZTestEnabled(), IsFogEnabled());

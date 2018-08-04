@@ -287,7 +287,7 @@ void Renderer::RenderMesh(const std::shared_ptr<Mesh>& mesh, const D3DCOLORVALUE
     d3DDevice_->SetVertexShader(meshVertexShader_);
     // set shader constant
     {
-        const D3DXMATRIX worldViewProjMatrix = worldMatrix * viewProjMatrix3D_;
+        const D3DXMATRIXA16 worldViewProjMatrix = worldMatrix * viewProjMatrix3D_;
         d3DDevice_->SetVertexShaderConstantF(0, (const float*)&worldViewProjMatrix, 4);
     }
     {
