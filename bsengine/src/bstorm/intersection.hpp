@@ -2,6 +2,7 @@
 
 #include <array>
 #include <vector>
+#include <deque>
 #include <list>
 #include <memory>
 
@@ -91,7 +92,7 @@ public:
     virtual void Render(const std::shared_ptr<Renderer>& renderer, bool permitCamera) const;
     const Shape& GetShape() const;
     int GetTreeIndex() const;
-    const std::vector<std::weak_ptr<Intersection>>& GetCollideIntersections() const;
+    const std::deque<std::weak_ptr<Intersection>>& GetCollideIntersections() const;
 protected:
     void ChangeCollisionGroup(CollisionGroup colGroup) { colGroup_ = colGroup; }
 private:
@@ -99,7 +100,7 @@ private:
     CollisionGroup colGroup_;
     int treeIdx_;
     std::list<std::weak_ptr<Intersection>>::iterator posInCell_;
-    std::vector<std::weak_ptr<Intersection>> collideIsects_; // 衝突した当たり判定
+    std::deque<std::weak_ptr<Intersection>> collideIsects_; // 衝突した当たり判定
 
     friend class CollisionDetector;
 };
@@ -142,12 +143,12 @@ public:
     void SetWidth(const std::shared_ptr<Intersection>&, float width);
     // GetIntersectionsCollideWith ~: ある判定と当たっている判定を取得する
     // すべてのグループの判定を取得したいならtargetGroupを負にする
-    std::vector<std::shared_ptr<Intersection>> GetIntersectionsCollideWithIntersection(const std::shared_ptr<Intersection>& isect, CollisionGroup targetGroup) const;
-    std::vector<std::shared_ptr<Intersection>> GetIntersectionsCollideWithShape(const Shape& shape, CollisionGroup targetGroup) const;
+    std::deque<std::shared_ptr<Intersection>> GetIntersectionsCollideWithIntersection(const std::shared_ptr<Intersection>& isect, CollisionGroup targetGroup) const;
+    std::deque<std::shared_ptr<Intersection>> GetIntersectionsCollideWithShape(const Shape& shape, CollisionGroup targetGroup) const;
     void TestAllCollision();
 private:
     using VisitedIsects = std::vector<std::weak_ptr<Intersection>*>;
-    void TestNodeCollision(int treeIdx, const std::unique_ptr<VisitedIsects[]>& visitedIsects);
+    void TestNodeCollision(int treeIdx, VisitedIsects visitedIsects[]);
     int CalcTreeIndexFromBoundingBox(const BoundingBox& boundingBox) const;
     const float fieldWidth_;
     const float fieldHeight_;

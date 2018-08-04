@@ -405,7 +405,7 @@ int Intersection::GetTreeIndex() const
     return treeIdx_;
 }
 
-const std::vector<std::weak_ptr<Intersection>>& Intersection::GetCollideIntersections() const
+const std::deque<std::weak_ptr<Intersection>>& Intersection::GetCollideIntersections() const
 {
     return collideIsects_;
 }
@@ -469,9 +469,9 @@ void CollisionDetector::SetWidth(const std::shared_ptr<Intersection>& isect, flo
     Update(isect);
 }
 
-std::vector<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCollideWithIntersection(const std::shared_ptr<Intersection>& self, CollisionGroup targetGroup) const
+std::deque<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCollideWithIntersection(const std::shared_ptr<Intersection>& self, CollisionGroup targetGroup) const
 {
-    std::vector<std::shared_ptr<Intersection>> ret;
+    std::deque<std::shared_ptr<Intersection>> ret;
     const CollisionGroup group1 = self->GetCollisionGroup();
 
     // 幅優先探索
@@ -521,9 +521,9 @@ std::vector<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCo
     return ret;
 }
 
-std::vector<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCollideWithShape(const Shape & self, CollisionGroup targetGroup) const
+std::deque<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCollideWithShape(const Shape & self, CollisionGroup targetGroup) const
 {
-    std::vector<std::shared_ptr<Intersection>> ret;
+    std::deque<std::shared_ptr<Intersection>> ret;
 
     // 幅優先探索
     const int startTreeIndex = CalcTreeIndexFromBoundingBox(self.GetBoundingBox());
@@ -568,8 +568,8 @@ std::vector<std::shared_ptr<Intersection>> CollisionDetector::GetIntersectionsCo
 
 void CollisionDetector::TestAllCollision()
 {
-    std::unique_ptr<VisitedIsects[]> visitedIsects(new VisitedIsects[colMatrix_->GetDimension()], std::default_delete<VisitedIsects[]>());
-    TestNodeCollision(0, visitedIsects);
+    static std::unique_ptr<VisitedIsects[]> visitedIsects(new VisitedIsects[colMatrix_->GetDimension()], std::default_delete<VisitedIsects[]>());
+    TestNodeCollision(0, visitedIsects.get());
 }
 
 // 指定したノードの上位と下位にある全当たり判定のペアに対して衝突検査を行う
@@ -580,7 +580,7 @@ void CollisionDetector::TestAllCollision()
 
 // NOTE: CollisionFunction内でオブジェクトを移動させたりしてCollisionDetector内のIntersectionの位置が変わると、移動先でさらに判定が取られてしまう
 //       弾幕風の場合、衝突時に移動することはないのでこれを仕様とし特に対策は行わない
-void CollisionDetector::TestNodeCollision(int treeIdx, const std::unique_ptr<VisitedIsects[]>& visitedIsects)
+void CollisionDetector::TestNodeCollision(int treeIdx, VisitedIsects visitedIsects[])
 {
     // 上位のレベルの判定の数をグループごとに覚えておく
     std::unique_ptr<size_t[]> prevVisitedIsectCounts(new size_t[colMatrix_->GetDimension()], std::default_delete<size_t[]>());
