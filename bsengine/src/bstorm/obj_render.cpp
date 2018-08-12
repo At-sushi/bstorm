@@ -1,4 +1,6 @@
-﻿#include <deque>
+﻿#include <vector>
+#include <deque>
+#include <algorithm>
 
 #include <bstorm/obj_render.hpp>
 
@@ -223,11 +225,11 @@ void ObjectLayerList::RenderLayer(int priority, bool ignoreStgSceneObj, bool che
     auto& layer = layers_.at(priority);
 
     // バケツソートする
-    std::deque<std::shared_ptr<ObjRender>> addShots;
-    std::deque<std::shared_ptr<ObjRender>> mulShots;
-    std::deque<std::shared_ptr<ObjRender>> subShots;
-    std::deque<std::shared_ptr<ObjRender>> invShots;
-    std::deque<std::shared_ptr<ObjRender>> alphaShots;
+    std::vector<std::shared_ptr<ObjShot>> addShots;
+    std::vector<std::shared_ptr<ObjShot>> mulShots;
+    std::vector<std::shared_ptr<ObjShot>> subShots;
+    std::vector<std::shared_ptr<ObjShot>> invShots;
+    std::vector<std::shared_ptr<ObjShot>> alphaShots;
     std::deque<std::shared_ptr<ObjRender>> others;
 
     auto it = layer.begin();
@@ -296,7 +298,15 @@ void ObjectLayerList::RenderLayer(int priority, bool ignoreStgSceneObj, bool che
             }
         }
     }
-    for (auto shot : addShots) { shot->Render(renderer); }
+
+	// テクスチャごとにまとめる
+	std::sort(addShots.begin(), addShots.end(), [](std::shared_ptr<ObjShot>& a, std::shared_ptr<ObjShot>& b) { return a->GetShotData()->texture->GetTexture() < b->GetShotData()->texture->GetTexture(); });
+	std::sort(mulShots.begin(), mulShots.end(), [](std::shared_ptr<ObjShot>& a, std::shared_ptr<ObjShot>& b) { return a->GetShotData()->texture->GetTexture() < b->GetShotData()->texture->GetTexture(); });
+	std::sort(subShots.begin(), subShots.end(), [](std::shared_ptr<ObjShot>& a, std::shared_ptr<ObjShot>& b) { return a->GetShotData()->texture->GetTexture() < b->GetShotData()->texture->GetTexture(); });
+	std::sort(invShots.begin(), invShots.end(), [](std::shared_ptr<ObjShot>& a, std::shared_ptr<ObjShot>& b) { return a->GetShotData()->texture->GetTexture() < b->GetShotData()->texture->GetTexture(); });
+	std::sort(alphaShots.begin(), alphaShots.end(), [](std::shared_ptr<ObjShot>& a, std::shared_ptr<ObjShot>& b) { return a->GetShotData()->texture->GetTexture() < b->GetShotData()->texture->GetTexture(); });
+
+	for (auto shot : addShots) { shot->Render(renderer); }
     for (auto shot : mulShots) { shot->Render(renderer); }
     for (auto shot : subShots) { shot->Render(renderer); }
     for (auto shot : invShots) { shot->Render(renderer); }
