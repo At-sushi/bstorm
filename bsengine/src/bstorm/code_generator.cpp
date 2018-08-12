@@ -595,14 +595,10 @@ void CodeGenerator::Traverse(NodeLoop& stmt)
 void CodeGenerator::Traverse(NodeTimes& stmt)
 {
     AddCode("do"); NewLine();
-    AddCode("local i = 0;"); NewLine(stmt.srcPos);
     AddCode("local e = " + runtime("ceil") + "(");  stmt.cnt->Traverse(*this); AddCode(");");
     NewLine(stmt.cnt->srcPos);
-    AddCode("while i < e do"); NewLine();
+    AddCode("for i = 0, e - 1 do"); NewLine();
     stmt.block->Traverse(*this);
-    Indent();
-    AddCode("i = i + 1;"); NewLine();
-    Unindent();
     AddCode("end"); NewLine();
     AddCode("end"); NewLine();
 }
@@ -615,11 +611,9 @@ void CodeGenerator::Traverse(NodeWhile& stmt)
 void CodeGenerator::Traverse(NodeAscent& stmt)
 {
     AddCode("do"); NewLine();
-    AddCode("local i = ");  stmt.range->start->Traverse(*this); AddCode(";"); NewLine(stmt.range->start->srcPos);
     AddCode("local e = ");  stmt.range->end->Traverse(*this); AddCode(";"); NewLine(stmt.range->end->srcPos);
-    AddCode("while " + runtime("lt") + "(i, e) do"); NewLine(stmt.srcPos);
+    AddCode("for i = "); stmt.range->start->Traverse(*this); AddCode(", e - 1 do"); NewLine(stmt.srcPos);
     stmt.block->Traverse(*this);
-    Indent(); AddCode("i = " + runtime("succ") + "(i);"); NewLine(stmt.srcPos); Unindent();
     AddCode("end"); NewLine();
     AddCode("end"); NewLine();
 }
@@ -627,9 +621,7 @@ void CodeGenerator::Traverse(NodeDescent& stmt)
 {
     AddCode("do"); NewLine();
     AddCode("local s = ");  stmt.range->start->Traverse(*this); AddCode(";"); NewLine(stmt.range->start->srcPos);
-    AddCode("local i = ");  stmt.range->end->Traverse(*this); AddCode(";"); NewLine(stmt.range->end->srcPos);
-    AddCode("while " + runtime("gt") + "(i, s) do"); NewLine(stmt.srcPos);
-    Indent(); AddCode("i = " + runtime("pred") + "(i);"); NewLine(stmt.srcPos); Unindent();
+    AddCode("for i = "); stmt.range->end->Traverse(*this); AddCode(", s + 1, -1 do"); NewLine(stmt.srcPos);
     stmt.block->Traverse(*this);
     AddCode("end"); NewLine();
     AddCode("end"); NewLine();
