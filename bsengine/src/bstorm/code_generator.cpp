@@ -612,7 +612,7 @@ void CodeGenerator::Traverse(NodeAscent& stmt)
 {
     AddCode("do"); NewLine();
     AddCode("local e = ");  stmt.range->end->Traverse(*this); AddCode(";"); NewLine(stmt.range->end->srcPos);
-    AddCode("for i = "); stmt.range->start->Traverse(*this); AddCode(", e - 1 do"); NewLine(stmt.srcPos);
+    AddCode("for i = "); stmt.range->start->Traverse(*this); AddCode(", e - 1 do"); NewLine(stmt.range->start->srcPos);
     stmt.block->Traverse(*this);
     AddCode("end"); NewLine();
     AddCode("end"); NewLine();
@@ -621,7 +621,7 @@ void CodeGenerator::Traverse(NodeDescent& stmt)
 {
     AddCode("do"); NewLine();
     AddCode("local s = ");  stmt.range->start->Traverse(*this); AddCode(";"); NewLine(stmt.range->start->srcPos);
-    AddCode("for i = "); stmt.range->end->Traverse(*this); AddCode(", s + 1, -1 do"); NewLine(stmt.srcPos);
+    AddCode("for i = "); stmt.range->end->Traverse(*this); AddCode(", s + 1, -1 do"); NewLine(stmt.range->end->srcPos);
     stmt.block->Traverse(*this);
     AddCode("end"); NewLine();
     AddCode("end"); NewLine();
