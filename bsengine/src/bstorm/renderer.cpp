@@ -195,8 +195,9 @@ static int calcPolygonNum(D3DPRIMITIVETYPE primType, int vertexCount)
 void Renderer::RenderPrim2D(D3DPRIMITIVETYPE primType, int vertexCount, const Vertex* vertices, IDirect3DTexture9* texture, int blendType, const D3DXMATRIX & worldMatrix, const std::shared_ptr<Shader>& pixelShader, bool permitCamera, bool insertHalfPixelOffset)
 {
     // disable z-buffer-write, z-test, fog
-    d3DDevice_->SetRenderState(D3DRS_ZENABLE, FALSE);
-    d3DDevice_->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	d3DDevice_->SetRenderState(D3DRS_ZENABLE, TRUE);
+	d3DDevice_->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+//	d3DDevice_->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
     d3DDevice_->SetRenderState(D3DRS_FOGENABLE, FALSE);
     // set blend type
     SetBlendType(blendType);
@@ -291,7 +292,7 @@ void Renderer::RenderMesh(const std::shared_ptr<Mesh>& mesh, const D3DCOLORVALUE
         d3DDevice_->SetVertexShaderConstantF(0, (const float*)&worldViewProjMatrix, 4);
     }
     {
-        D3DXMATRIX normalMatrix = worldMatrix;
+        D3DXMATRIXA16 normalMatrix = worldMatrix;
         normalMatrix._41 = normalMatrix._42 = normalMatrix._43 = 0.0f; // 平行移動成分を消去
         if (D3DXMatrixInverse(&normalMatrix, nullptr, &normalMatrix))
         {
