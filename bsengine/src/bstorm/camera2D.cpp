@@ -23,7 +23,7 @@ void Camera2D::Reset(float focusX, float focusY)
 void Camera2D::GenerateViewMatrix(D3DXMATRIX* view) const
 {
     // カメラ中心に変換してから拡大して回転
-    D3DXMATRIX rot;
+    D3DXMATRIXA16 rot;
     D3DXMatrixLookAtLH(view, &D3DXVECTOR3(focusX_, focusY_, 1.0f), &D3DXVECTOR3(focusX_, focusY_, 0.0f), &D3DXVECTOR3(0.0f, -1.0f, 0.0f));
     D3DXMatrixRotationZ(&rot, D3DXToRadian(-angleZ_));
     rot._11 *= ratioX_; rot._12 *= ratioX_;

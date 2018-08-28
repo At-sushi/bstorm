@@ -2,9 +2,9 @@
 
 namespace bstorm
 {
-D3DXMATRIX CreateScaleRotTransMatrix(float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz)
+D3DXMATRIXA16 CreateScaleRotTransMatrix(float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz)
 {
-    D3DXMATRIX mat;
+    D3DXMATRIXA16 mat;
     //‰ñ“]
     D3DXMatrixRotationYawPitchRoll(&mat, D3DXToRadian(ry), D3DXToRadian(rx), D3DXToRadian(rz));
 

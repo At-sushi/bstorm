@@ -41,11 +41,11 @@ private:
     float screenWidth_;
     float screenHeight_;
     int currentBlendType_;
-    D3DXMATRIX viewProjMatrix2D_;
-    D3DXMATRIX viewProjMatrix3D_;
-    D3DXMATRIX billboardViewProjMatrix3D_;
-    D3DXMATRIX forbidCameraViewProjMatrix2D_;
-    D3DXMATRIX halfPixelOffsetMatrix_;
+    D3DXMATRIXA16 viewProjMatrix2D_;
+    D3DXMATRIXA16 viewProjMatrix3D_;
+    D3DXMATRIXA16 billboardViewProjMatrix3D_;
+    D3DXMATRIXA16 forbidCameraViewProjMatrix2D_;
+    D3DXMATRIXA16 halfPixelOffsetMatrix_;
     bool fogEnable_;
     float fogStart_;
     float fogEnd_;
