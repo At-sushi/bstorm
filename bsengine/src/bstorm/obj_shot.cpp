@@ -731,7 +731,7 @@ void ObjLaser::SetRenderWidth(float width)
     renderWidth_ = width;
     if (!hasIntersectionWidth_)
     {
-        SetIntersectionWidth(width / 2);
+        SetIntersectionWidth(width / (IsPlayerShot() ? 2 : 4));
     }
 }
 

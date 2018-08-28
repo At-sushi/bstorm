@@ -97,7 +97,7 @@ void ShotDataTable::Reload(const std::wstring & path, const std::shared_ptr<Sour
         {
             float width = std::abs(data.rect.right - data.rect.left);
             float height = std::abs(data.rect.bottom - data.rect.top);
-            float r = std::max(std::max(width, height) / 1.5f - 1.5f, 3.0f) / 2.0f;
+            float r = std::max(std::max(width, height) / 1.5f - 1.5f, 3.0f) / 4.0f;
             data.collisions.push_back({ r, 0.0f, 0.0f });
         }
         data.texture = texture;
