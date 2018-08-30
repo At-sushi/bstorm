@@ -320,9 +320,9 @@ void ObjText::Render(const std::shared_ptr<Renderer>& renderer)
                 {
                     auto bodyFont = bodyFonts_[idx];
                     // 初めに中心座標を原点に持ってきてから拡大・回転したのち元の位置に戻す
-                    D3DXMATRIX trans = CreateScaleRotTransMatrix(colX + bodyFont->GetPrintOffsetX() - centerX, lineY + bodyFont->GetPrintOffsetY() - centerY, GetZ(), 0, 0, 0, 1, 1, 1);
-                    D3DXMATRIX scaleRot = CreateScaleRotTransMatrix(centerX, centerY, 0, GetAngleX(), GetAngleY(), GetAngleZ(), GetScaleX(), GetScaleY(), GetScaleZ());
-                    D3DXMATRIX world = trans * scaleRot;
+                    D3DXMATRIXA16 trans = CreateScaleRotTransMatrix(colX + bodyFont->GetPrintOffsetX() - centerX, lineY + bodyFont->GetPrintOffsetY() - centerY, GetZ(), 0, 0, 0, 1, 1, 1);
+                    D3DXMATRIXA16 scaleRot = CreateScaleRotTransMatrix(centerX, centerY, 0, GetAngleX(), GetAngleY(), GetAngleZ(), GetScaleX(), GetScaleY(), GetScaleZ());
+                    D3DXMATRIXA16 world = trans * scaleRot;
                     RenderFont(bodyFont, world, renderer);
                     if (ruby != rubyFonts_.end())
                     {
@@ -348,8 +348,8 @@ void ObjText::Render(const std::shared_ptr<Renderer>& renderer)
                                 float rubyX = colX;
                                 for (auto rubyFont : ruby->text)
                                 {
-                                    D3DXMATRIX trans = CreateScaleRotTransMatrix(rubyX + rubyFont->GetPrintOffsetX() - centerX, rubyY + rubyFont->GetPrintOffsetY() - centerY, GetZ(), 0, 0, 0, 1, 1, 1);
-                                    D3DXMATRIX world = trans * scaleRot;
+                                    D3DXMATRIXA16 trans = CreateScaleRotTransMatrix(rubyX + rubyFont->GetPrintOffsetX() - centerX, rubyY + rubyFont->GetPrintOffsetY() - centerY, GetZ(), 0, 0, 0, 1, 1, 1);
+                                    D3DXMATRIXA16 world = trans * scaleRot;
                                     RenderFont(rubyFont, world, renderer);
                                     rubyX += rubyFont->GetRightCharOffsetX() + rubySidePitch;
                                 }
